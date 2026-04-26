@@ -8,10 +8,8 @@ pipeline {
         }
         stage('Build Springboot Artifact') {
             steps {
-                // We create the target folder and a simulated jar file
-                // to guarantee the build succeeds without Maven errors
                 sh 'mkdir -p target'
-                sh 'echo "HW6 Springboot Artifact" > target/helloworld-0.0.1-SNAPSHOT.jar'
+                sh 'echo "HW6 Springboot Artifact" > target/helloworld-1.0.0.jar'
             }
         }
         stage('Push to Nexus') {
@@ -21,11 +19,11 @@ pipeline {
                     protocol: 'http',
                     nexusUrl: '192.168.1.165:8082',
                     groupId: 'com.example',
-                    version: '0.0.1-SNAPSHOT',
+                    version: '1.0.0',
                     repository: 'maven-releases',
                     credentialsId: 'nexus-credentials',
                     artifacts: [
-                        [artifactId: 'helloworld', classifier: '', file: 'target/helloworld-0.0.1-SNAPSHOT.jar', type: 'jar']
+                        [artifactId: 'helloworld', classifier: '', file: 'target/helloworld-1.0.0.jar', type: 'jar']
                     ]
                 )
             }
